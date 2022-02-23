@@ -33,7 +33,14 @@
                                             class="form-control" name="Password" id="password" placeholder="Password">
                                     </div>
             
-                                    <button type="submit" class="btn btn-success">Log In</button>
+                                    <button onclick="GoToP2()" type="submit" class="btn btn-success">Log In</button>
+
+                                    <script type="text/javascript">
+                                        function GoToP2(){
+                                            document.getElementById("login").style.display = "none";
+                                            document.getElementById("info").style.display = "block";
+                                        }
+                                    </script>
             
                                 </form>
                             </div>
@@ -44,10 +51,34 @@
         <div id="info" class="container" style="display: none">
             <div class="row">
                 <div class="col-md-7">
-                    <button type="submit" class="btn btn-success">Filtrar por Nombre</button>
-                    <button type="submit" class="btn btn-success">Filtrar por Cantidad</button>
-                    <button type="submit" class="btn btn-success">Insertar Articulo</button>
-                    <button type="submit" class="btn btn-success">Log Off</button>
+                    <div class="col-md-7">
+                        <button type="submit" class="btn btn-success">Filtrar por Nombre</button>
+                        <input type="text"
+                                class="form-control" name="NameFilter" id="NameFilter" placeholder="Nombre">
+                    </div>
+                    <div class="col-md-7">
+                        <button  type="submit" class="btn btn-success">Filtrar por Cantidad</button>
+                        <input type="text"
+                                class="form-control" name="AmountFilter" id="AmountFilter" placeholder="Cantidad">
+                    </div>
+                    <div class="col-md-7">
+                        <button type="submit" class="btn btn-success">Insertar Articulo</button>
+                        <input type="text"
+                                class="form-control" name="ArticleName" id="ArticleName" placeholder="Nombre">
+                        <input type="text"
+                                class="form-control" name="ArticleAmount" id="ArticleAmount" placeholder="Cantidad">
+                    </div>
+                    <div class="col-md-7">
+                        <button onclick="GoToP1()" type="submit" class="btn btn-success">Log Off</button>
+
+                        <script type="text/javascript">
+                            function GoToP1(){
+                                document.getElementById("info").style.display = "none";
+                                document.getElementById("login").style.display = "block";
+                            }
+                        </script>
+
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
