@@ -9,6 +9,31 @@
         <title>Place Holder</title>
 
     </head>
+
+    <?php
+        $serverName = 'ERICK';
+        $connectionInfo = array('Database'=>'Tarea programada');
+        $conn = sqlsrv_connect($serverName, $connectionInfo);
+        if( $conn ) {
+            echo "Connection established.<br />";
+       }else{
+            echo "Connection could not be established.<br />";
+            die( print_r( sqlsrv_errors(), true));
+       }
+       $tsql = "SELECT * FROM Articulo";
+       $stmt = sqlsrv_query( $conn, $tsql);  
+
+       if ($stmt){
+        while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
+            echo $row['id'].", ".$row['Nombre'].", ".$row['Precio']."<br />";
+        }
+       }
+       else{    
+           echo "Error in statement execution.\n";    
+           die( print_r( sqlsrv_errors(), true));    
+       } 
+    ?>
+
     <body>
         <div>
             <div id="login" class="container">
