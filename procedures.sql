@@ -1,19 +1,19 @@
 use TareaProgramada;
 
-INSERT INTO Articulo (id,Nombre, Precio)
+INSERT INTO Articulo (Nombre, Precio)
 VALUES
-(1,'Coca',350);
+('Coca',350);
 
-INSERT INTO Articulo (id,Nombre, Precio)
+INSERT INTO Articulo (Nombre, Precio)
 VALUES
-(2,'Atun',1500);
+('Atun',1500);
 
-INSERT INTO Articulo (id,Nombre, Precio)
+INSERT INTO Articulo (sNombre, Precio)
 VALUES
-(3,'Anchoa',1000);
+('Anchoa',1000);
 
 select * from Articulo order by Articulo.nombre;
-
+drop table Ususario
 
 --------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ AS
 DECLARE @Cantidad int;
 SET  @Cantidad = (select count(*) from  Articulo where Articulo.nombre = @pNombre);
 IF (@Cantidad = 0) -- excepcion forzada del programador
-	INSERT INTO Articulo (id,Nombre, Precio) VALUES	(((select count(*) from Articulo)+1),@pNombre,@pPrecio);         
+	INSERT INTO Articulo (Nombre, Precio) VALUES	(@pNombre,@pPrecio);         
 ELSE
 	select 'Articulo con nombre duplicado'
 
