@@ -1,15 +1,22 @@
-use TareaProgramada;
+use [Tarea programada]
 
-INSERT INTO Usuario (UserName,password)
-SELECT
-   MY_XML.Usuarios.query('Nombre').value('.', 'VARCHAR(16)'),
-   MY_XML.Usuarios.query('Password').value('.', 'VARCHAR(16)')
+DECLARE @xmlData XML
 
-FROM (SELECT CAST(MY_XML AS xml)
-      FROM OPENROWSET(BULK 'D:\Semestre V\Bases\Primera Tarea Programada\DatosTarea1.xml', SINGLE_BLOB) AS T(MY_XML)) AS T(MY_XML)
-      CROSS APPLY MY_XML.nodes('Datos/Usuarios/Usuario') AS MY_XML (Usuarios);
+SET @xmlData = (
+		SELECT *
+		FROM OPENROWSET(BULK 'C:\Users\eastorga\Documents\GitHub\Tarea_Porgramada_1_BD\DatosTarea1.xml', SINGLE_BLOB) 
+		AS xmlData
+		);
 
-select * from Usuario
 
-DELETE FROM Usuario WHERE id<100;
+INSERT INTO dbo.Articulo(Nombre, Precio)
+SELECT  
+	T.Item.value('@Nombre', 'VARCHAR(128)'),
+	T.Item.value('@Precio', 'MONEY')
+FROM @xmlData.nodes('Datos/Articulos/Articulo') as T(Item)
 
+INSERT INTO dbo.Usuario(UserName, Password)
+SELECT  
+	T.Item.value('@Nombre', 'VARCHAR(16)'),
+	T.Item.value('@Password', 'VARCHAR(16)')
+FROM @xmlData.nodes('Datos/Usuarios/Usuario') as T(Item)

@@ -1,4 +1,4 @@
-USE [TareaProgramada]
+USE [Tarea programada]
 GO
 /****** Object:  Table [dbo].[Articulo]    Script Date: 12/03/2022 10:17:03 ******/
 SET ANSI_NULLS ON
