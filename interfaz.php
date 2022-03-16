@@ -110,6 +110,20 @@
                                 <th>Nombre de Articulo</th>
                                 <th>Precio</th>
                             </tr>
+                                <?php
+                                $tsql = "SELECT * FROM Articulo";
+                                $stmt = sqlsrv_query( $conn, $tsql); 
+                                while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $row['id']?></td>
+                                        <td><?php echo $row['Nombre']?></td>
+                                        <td><?php echo $row['Precio']?></td>
+                                    </tr>
+
+                                <?php
+                                }
+                                ?>
                         </thead>
                     </table>
                 </div>
