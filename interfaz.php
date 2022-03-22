@@ -1,134 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initioal-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        <title>Place Holder</title>
+<!DOCTYPE HTML>  
+<html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
+<body>  
 
-    </head>
+<?php
 
-    <?php
-        $serverName = 'ERICK';
-        $connectionInfo = array('Database'=>'Tarea programada');
-        $conn = sqlsrv_connect($serverName, $connectionInfo);
-        if( $conn ) {
-            echo "Connection established.<br />";
-       }else{
-            echo "Connection could not be established.<br />";
-            die( print_r( sqlsrv_errors(), true));
-       }
-       $tsql = "SELECT * FROM Articulo";
-       $stmt = sqlsrv_query( $conn, $tsql);  
 
-       if ($stmt){
-        while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
-            echo $row['id'].", ".$row['Nombre'].", ".$row['Precio']."<br />";
-        }
-       }
-       else{    
-           echo "Error in statement execution.\n";    
-           die( print_r( sqlsrv_errors(), true));    
-       } 
-    ?>
+$serverName = 'ERICK';
+$connectionInfo = array('Database'=>'Tarea programada');
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 
-    <body>
-        <div>
-            <div id="login" class="container">
-                <div class="row">
-                    <div class="col-md-5">
+// define variables and set to empty values
+$nameErr = $emailErr = $genderErr = $websiteErr = "";
+$name = $email = $gender = $comment = $website = "";
 
-                        <div class="card">
-                            <div class="card-header">
-                                Log in info
-                            </div>
-                            <div class="card-body">
-                                <form action="javascript:void(0)" method="post">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Nombre:</label>
-                                        <input type="text"
-                                            class="form-control" name="Usuario" id="usuario" placeholder="Usuario">
-            
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Password:</label>
-                                        <input type="password"
-                                            class="form-control" name="Password" id="password" placeholder="Password">
-                                    </div>
-            
-                                    <button onclick="GoToP2()" type="submit" class="btn btn-success">Log In</button>
 
-                                    <script type="text/javascript">
-                                        function GoToP2(){
-                                            document.getElementById("login").style.display = "none";
-                                            document.getElementById("info").style.display = "block";
-                                        }
-                                    </script>
-            
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div id="info" class="container" style="display: none">
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="col-md-7">
-                        <button type="submit" class="btn btn-success">Filtrar por Nombre</button>
-                        <input type="text"
-                                class="form-control" name="NameFilter" id="NameFilter" placeholder="Nombre">
-                    </div>
-                    <div class="col-md-7">
-                        <button  type="submit" class="btn btn-success">Filtrar por Cantidad</button>
-                        <input type="text"
-                                class="form-control" name="AmountFilter" id="AmountFilter" placeholder="Cantidad">
-                    </div>
-                    <div class="col-md-7">
-                        <button type="submit" class="btn btn-success">Insertar Articulo</button>
-                        <input type="text"
-                                class="form-control" name="ArticleName" id="ArticleName" placeholder="Nombre">
-                        <input type="text"
-                                class="form-control" name="ArticleAmount" id="ArticleAmount" placeholder="Cantidad">
-                    </div>
-                    <div class="col-md-7">
-                        <button onclick="GoToP1()" type="submit" class="btn btn-success">Log Off</button>
+?>
+<div id="login" class="container">
+<h2>Information Post</h2>
+<p><span class="error">* required field</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  <input  id = "hello" type="text" name="name" value="<?php echo $name;?>">
+  <span class="error">* <?php echo $nameErr;?></span>
+  <input type="submit" name="submit" value="Filtrar Nombre">
+  <br><br>
+  <input type="number" name="email" value="<?php echo $email;?>">
+  <span class="error">* <?php echo $emailErr;?></span>
+  <input type="submit" name="submit" value="Filtrar Cantidad">
+  <br><br>
+  <input type="text" name="website" value="<?php echo $website;?>">
+  <span class="error"><?php echo $websiteErr;?></span>
+  <br><br>
+</form>
+<script type="text/javascript">
+  function hide(){
+  document.getElementById("hello").style.display = "none";
+  }
+</script>
+</div>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if($_POST['submit'] == 'Filtrar Nombre'){
+    $name = test_input($_POST["name"]);
+    $tsql = "EXEC filtrarNombre @pNombre = '$name'";
+    $stmt = sqlsrv_query( $conn, $tsql); 
+    while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
+      echo $row['Nombre'];
+      echo "  ";
+      echo $row['Precio'];
+      echo nl2br("\n");
+    }
 
-                        <script type="text/javascript">
-                            function GoToP1(){
-                                document.getElementById("info").style.display = "none";
-                                document.getElementById("login").style.display = "block";
-                            }
-                        </script>
+  }
+  if($_POST['submit'] == 'Filtrar Cantidad'){
+    $email = test_input($_POST["email"]);
+    $tsql = "EXEC filtrarCantidad @pCantidad = '$email'";
+    $stmt = sqlsrv_query( $conn, $tsql); 
+    while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
+      echo $row['Nombre'];
+      echo "  ";
+      echo $row['Precio'];
+      echo nl2br("\n");
+    }
+  }
+}
 
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nombre de Articulo</th>
-                                <th>Precio</th>
-                            </tr>
-                                <?php
-                                $tsql = "SELECT * FROM Articulo";
-                                $stmt = sqlsrv_query( $conn, $tsql); 
-                                while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
-                                ?>
-                                    <tr>
-                                        <td><?php echo $row['id']?></td>
-                                        <td><?php echo $row['Nombre']?></td>
-                                        <td><?php echo $row['Precio']?></td>
-                                    </tr>
 
-                                <?php
-                                }
-                                ?>
-                        </thead>
-                    </table>
-                </div>
 
-            </div>
-        </div>
-    </body>
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+</body>
 </html>

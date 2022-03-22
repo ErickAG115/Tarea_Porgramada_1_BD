@@ -1,45 +1,35 @@
-use TareaProgramada;
-
-INSERT INTO Articulo (Nombre, Precio)
-VALUES
-('Coca',350);
-
-INSERT INTO Articulo (Nombre, Precio)
-VALUES
-('Atun',1500);
-
-INSERT INTO Articulo (sNombre, Precio)
-VALUES
-('Anchoa',1000);
-
-select * from Articulo order by Articulo.nombre;
-drop table Ususario
+use [Tarea programada];
 
 --------------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS filtrarNombre;
 
 CREATE PROCEDURE filtrarNombre @pNombre nvarchar(150)
-AS
+AS BEGIN
+
 IF (@pNombre = '') -- excepcion forzada del programador
 	select * from Articulo order by Articulo.nombre;            
 ELSE
 	select * from Articulo where Articulo.nombre like '%'+@pNombre+'%';
 
-
+END
+GO
 	
-EXEC filtrarNombre @pNombre = 'O'
+EXEC filtrarNombre @pNombre = ''
 
 --------------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS filtrarCantidad;
 
 CREATE PROCEDURE filtrarCantidad @pCantidad int
-AS
+AS BEGIN
 IF (@pCantidad = 0) -- excepcion forzada del programador
 	select * from Articulo order by Articulo.nombre;            
 ELSE
 	select TOP(@pCantidad) * from Articulo ;
+
+END
+GO
 
 
 	
