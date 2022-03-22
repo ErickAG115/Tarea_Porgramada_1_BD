@@ -15,8 +15,6 @@ ELSE
 END
 GO
 	
-EXEC filtrarNombre @pNombre = ''
-
 --------------------------------------------------------------------------------------
 
 DROP PROCEDURE IF EXISTS filtrarCantidad;
@@ -32,10 +30,6 @@ END
 GO
 
 
-	
-EXEC filtrarCantidad @pCantidad = 1
-
-
 
 DROP PROCEDURE IF EXISTS insertarArticulo;
 
@@ -44,9 +38,14 @@ AS BEGIN
 DECLARE @Cantidad int;
 SET  @Cantidad = (select count(*) from  Articulo where Articulo.nombre = @pNombre);
 IF (@Cantidad = 0) -- excepcion forzada del programador
-	INSERT INTO Articulo (Nombre, Precio) VALUES	(@pNombre,@pPrecio);         
+	BEGIN
+	INSERT INTO Articulo (Nombre, Precio) VALUES	(@pNombre,@pPrecio);
+	select 'True'
+	END
 ELSE
-	select 'Articulo con nombre duplicado'
+	BEGIN
+	select 'False'
+	END
 
 END
 GO
