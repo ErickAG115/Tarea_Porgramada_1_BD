@@ -17,8 +17,6 @@ $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 $user = $password = "";
 $found = "false";
-
-
 ?>
 
 <div id="login" class="container">
@@ -46,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "El usuario o password son incorrectos";
     }
     else{
-        header("Location: http://localhost/php_program/prueba.php");
+        header("Location: http://localhost/php_program/Information%20Post.php");
         exit();
     }
 

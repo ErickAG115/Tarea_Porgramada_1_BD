@@ -45,12 +45,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if($_POST['submit'] == "Filtrar Nombre"){
     $name = test_input($_POST["name"]);
     $tsql = "EXEC filtrarNombre @pNombre = '$name'";
-    $stmt = sqlsrv_query( $conn, $tsql); 
+    $stmt = sqlsrv_query( $conn, $tsql);
+    echo "<table border='4' class='stats' cellspacing='0'>
+          <tr>
+          <td class='hed' colspan='8'>Article Information</td>
+          </tr>
+          <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          </tr>"; 
     while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
-      echo $row['Nombre'];
-      echo " |||| Precio:  ";
-      echo $row['Precio'];
-      echo nl2br("\n");
+      echo "<tr>";
+      echo "<td>" . $row['Nombre'] . "</td>";
+      echo "<td>" . $row['Precio'] . "</td>";
+      echo "</tr>";
     }
 
   }
@@ -75,12 +83,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if($_POST['submit'] == 'Filtrar Cantidad'){
     $cantidad = test_input($_POST["quantity"]);
     $tsql = "EXEC filtrarCantidad @pCantidad = '$cantidad'";
-    $stmt = sqlsrv_query( $conn, $tsql); 
+    $stmt = sqlsrv_query( $conn, $tsql);
+    echo "<table border='4' class='stats' cellspacing='0'>
+          <tr>
+          <td class='hed' colspan='8'>Article Information</td>
+          </tr>
+          <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          </tr>";
     while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
-      echo $row['Nombre'];
-      echo " |||| Precio:  ";
-      echo $row['Precio'];
-      echo nl2br("\n");
+      echo "<tr>";
+      echo "<td>" . $row['Nombre'] . "</td>";
+      echo "<td>" . $row['Precio'] . "</td>";
+      echo "</tr>";
     }
   }
   if($_POST['submit'] == 'Log Off'){
