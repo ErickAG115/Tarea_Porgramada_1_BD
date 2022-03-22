@@ -33,21 +33,25 @@ $found = "false";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = test_input($_POST["user"]);
     $password = test_input($_POST["password"]);
-    $tsql = "EXEC retornarUsers";
-    $stmt = sqlsrv_query( $conn, $tsql);
-    while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
-        if($row['UserName']==$user && $row['Password']==$password){
-            $found="true";
-        }
-    }
-    if($found=="false"){
-        echo "El usuario o password son incorrectos";
+    if(empty($user)||empty($password)){
+        echo "Hay espacios vacios";
     }
     else{
-        header("Location: http://localhost/php_program/Information%20Post.php");
-        exit();
+        $tsql = "EXEC retornarUsers";
+        $stmt = sqlsrv_query( $conn, $tsql);
+        while( $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC) ) {
+            if($row['UserName']==$user && $row['Password']==$password){
+                $found="true";
+            }
+        }
+        if($found=="false"){
+            echo "El usuario o password son incorrectos";
+        }
+        else{
+            header("Location: http://localhost/php_program/Information%20Post.php");
+            exit();
+        }
     }
-
 }
 function test_input($data) {
     $data = trim($data);

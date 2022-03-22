@@ -50,3 +50,8 @@ ELSE
 END
 GO
 
+CREATE PROCEDURE retornarUsers
+AS BEGIN
+select * from Usuario;
+END
+GO
