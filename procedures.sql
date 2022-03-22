@@ -40,7 +40,7 @@ EXEC filtrarCantidad @pCantidad = 1
 DROP PROCEDURE IF EXISTS insertarArticulo;
 
 CREATE PROCEDURE insertarArticulo @pNombre nvarchar(150), @pPrecio int
-AS
+AS BEGIN
 DECLARE @Cantidad int;
 SET  @Cantidad = (select count(*) from  Articulo where Articulo.nombre = @pNombre);
 IF (@Cantidad = 0) -- excepcion forzada del programador
@@ -48,9 +48,6 @@ IF (@Cantidad = 0) -- excepcion forzada del programador
 ELSE
 	select 'Articulo con nombre duplicado'
 
+END
+GO
 
-	
-EXEC insertarArticulo @pNombre = 'Pepinos', @pPrecio = 500
-
-
-select * from Articulo
